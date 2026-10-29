@@ -1,0 +1,55 @@
+name: oxfmt
+base: core26
+version: '0.75.0'
+title: Oxfmt
+icon: snap/gui/oxfmt.png
+summary: Fast formatter for JavaScript, TypeScript and web projects
+description: |
+  Oxfmt is a fast formatter for JavaScript, TypeScript, JSON, CSS, Markdown
+  and other project files. This snap provides the standalone command-line
+  application distributed through GitHub releases.
+
+  Run oxfmt --write . to format a project, or oxfmt --check . to check it.
+license: MIT
+grade: stable
+confinement: strict
+website: https://oxc.rs/docs/guide/usage/formatter.html
+source-code:
+  - https://github.com/oxc-project/oxc
+  - https://github.com/sidalit/oxfmt-snap
+issues:
+  - https://github.com/oxc-project/oxc/issues
+  - https://github.com/sidalit/oxfmt-snap/issues
+contact: https://github.com/sidalit/oxfmt-snap/issues
+
+platforms:
+  amd64:
+  arm64:
+
+apps:
+  oxfmt:
+    command: bin/oxfmt
+    plugs:
+      - home
+      - removable-media
+
+parts:
+  oxfmt:
+    plugin: rust
+    source: https://github.com/oxc-project/oxc.git
+    source-tag: oxfmt_v$SNAPCRAFT_PROJECT_VERSION
+    source-depth: 1
+    rust-path: [apps/oxfmt]
+    rust-features: [allocator]
+    rust-no-default-features: true
+    build-packages:
+      - build-essential
+      - clang
+      - cmake
+    build-environment:
+      - CARGO_BUILD_JOBS: $CRAFT_PARALLEL_BUILD_COUNT
+      - TARGET_CC: clang
+    override-build: |
+      craftctl default
+      install -Dm644 LICENSE THIRD-PARTY-LICENSE \
+        -t "$CRAFT_PART_INSTALL/share/doc/oxfmt"
