@@ -1,6 +1,6 @@
 name: oxfmt
 base: core26
-version: '0.77.0'
+version: '0.78.0'
 title: Oxfmt
 icon: snap/gui/oxfmt.png
 summary: Fast formatter for JavaScript, TypeScript and web projects
